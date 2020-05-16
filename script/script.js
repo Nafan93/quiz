@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // Поиск элементов страницы
     const btnOpenModal = document.querySelector('#btnOpenModal');
     const closeModal = document.querySelector('#closeModal');
     const modalBlock = document.querySelector('#modalBlock');
@@ -7,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const formAnswers = document.querySelector('#formAnswers');
     const buttonNext = document.querySelector('#next');
     const buttonPrev = document.querySelector('#prev');
-
+    
+    // Массив вопросов
     const questions = [
         {
             question: "Какого цвета бургер?",
@@ -82,18 +84,20 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'radio'
         }
     ];
-      
+
     //Окрытие Modal
     btnOpenModal.addEventListener('click', () => {
 
         modalBlock.classList.add('d-block');
         playTest();
     });
+
     //Закрытие Modal
     closeModal.addEventListener('click', () => {
 
         modalBlock.classList.remove('d-block');
     });
+    
     //Рендер теста
     const playTest = () => {
 
@@ -119,38 +123,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 formAnswers.appendChild(ansverItem);
             });
         }
-        
+
         //Рендер вопросов
         const renderQuestions = (indexQuestion) => {
-            formAnswers.innerHTML= ``;
+            formAnswers.innerHTML = ``;
             questionTitle.textContent = `${questions[indexQuestion].question}`;
             renderAnsvers(indexQuestion);
         }
         renderQuestions(numberQuestion);
-        
-        //Next button
+
+
+        //Обработка клика по Next button
         buttonNext.onclick = () => {
-            
-            if (numberQuestion == questions.length-1) {
-                buttonNext.classList.add('d-none')
-            } else if (numberQuestion !=questions.length-1) {
-                buttonNext.classList.remove('d-none')
-                numberQuestion++;
-                };
+            //Увеличиваем numberQuestion на 1
+            numberQuestion++;
+
+            if (numberQuestion == questions.length - 1) {
+                buttonNext.disabled = true;
+            } else {
+                buttonPrev.removeAttribute('disabled');
+            };
             renderQuestions(numberQuestion);
-            
         };
 
-        //Prev button
+        //Обработка клика по Prev button
+        //Деактивация кнопки
+        buttonPrev.disabled = true;
+
         buttonPrev.onclick = () => {
-        
-            if (numberQuestion === 0) {
-                buttonPrev.classList.add('d-none');
+
+            numberQuestion--;
+            //Если numberQuestion = 0, то кнопка блокируется
+            if (numberQuestion == 0) {
+                buttonPrev.disabled = true;
             } else {
-                numberQuestion--;
-                console.log(numberQuestion); 
-                }
+                //Кнопка Next button активна при numberQuestion != 0
+                buttonNext.removeAttribute('disabled');
+            }
             renderQuestions(numberQuestion);
-        } 
+        }
+
+
+
     }
 });
