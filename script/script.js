@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         modalBlock.classList.remove('d-block');
     });
-    
+
     //Рендер теста
     const playTest = () => {
 
@@ -114,8 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 //Генерация ответов внури div
                 ansverItem.innerHTML = `
-                <input type="radio" id="answerItem1" name="answer" class="d-none">
-                <label for="answerItem1" class="d-flex flex-column justify-content-between">
+                <input type="${questions[index].type}" id="${answer.title}" name="answer" class="d-none">
+                <label for="${answer.title}" class="d-flex flex-column justify-content-between">
                     <img class="answerImg" src="${answer.url}" alt="burger">
                     <span>${answer.title}</span>
                 </label>
