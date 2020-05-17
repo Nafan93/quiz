@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttonNext = document.querySelector('#next');
     const buttonPrev = document.querySelector('#prev');
     const buttonSend = document.querySelector('#send');
-    
+    const modalTitle = document.querySelector('.modal-title');
+
     // Массив вопросов
     const questions = [
         {
@@ -103,8 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const playTest = () => {
 
         const finalAnswers = [];
+        const obj = {};
 
         let numberQuestion = 0;
+
+        modalTitle.textContent = `Ответь на вопрос:`;
 
         //Рендер ответов
         const renderAnsvers = (index) => {
@@ -149,6 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     buttonPrev.removeAttribute('disabled')
                 break;
                 case numberQuestion === questions.length: 
+                    questionTitle.textContent = " "
+                    modalTitle.textContent = " "
                     buttonNext.classList.add('d-none')
                     buttonPrev.classList.add('d-none')
                     buttonSend.classList.remove('d-none')
@@ -164,9 +170,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 case numberQuestion === questions.length + 1:
                     formAnswers.textContent = ''
                     formAnswers.textContent = 'Спасибо за заказ!'
+                    buttonSend.classList.add('d-none')
                     setTimeout(() => {
                         modalBlock.classList.remove('d-block');
                     }, 2000)
+                    for(let key in obj) {
+                        let newObj ={}
+                        newObj[key] = obj[key]
+                        finalAnswers.push(newObj)
+                    }
+                    console.log(finalAnswers);
                 break;
 
             }   
@@ -177,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const checkAnswer = () => {
 
-            const obj = {};
+            
 
             const inputs = [...formAnswers.elements].filter((input) => input.checked || input.id === 'numberPhone');
             
@@ -190,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     obj['Номер телефона'] = input.value;
                 }
             });
-            finalAnswers.push(obj);
+          //  finalAnswers.push(obj);
         }
 
         //Обработка клика по Next button
@@ -212,7 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
             checkAnswer();
             numberQuestion++;
             renderQuestions(numberQuestion);
-            console.log(finalAnswers);
         }
     }
 });
